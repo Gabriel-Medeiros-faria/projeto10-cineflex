@@ -1,20 +1,26 @@
-import Navbar from "./Navbar";
+import PaginaInicial from "./PáginaInicial";
 import GlobalStyled from "./GlobalStyled";
-import styled from "styled-components"
-import ContainerScreen from "./Container-screen";
+import styled from "styled-components";
+import SelectSession from "./SelectSession";
+
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 export default function App() {
     return (
         <>
-            <GlobalStyled/>
-        <Container>
-            <Navbar/>
-            <ContainerScreen/>
-        </Container>    
+        <BrowserRouter>
+            <GlobalStyled />
+            <Container>
+                <Routes>
+                <Route path="/" element={<PaginaInicial/>}/> 
+                <Route path="/sessoes/:idFilme" element={<SelectSession/>}/>
+                </Routes>
+            </Container>
+        </BrowserRouter>
         </>
     );
 }
 
 const Container = styled.div`
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
-`
+
+`;

@@ -1,10 +1,13 @@
 import styled from "styled-components"
+import { Link } from "react-router-dom"
 
-export default function Navbar(){
-    return(
+export default function Navbar() {
+    return (
         <ContainerNavbar>
             <TextNavbar>
-                <h1>CINEFLEX</h1>
+                <Link to="/">
+                    <a>CINEFLEX</a>
+                </Link>
             </TextNavbar>
         </ContainerNavbar>
     )
@@ -18,6 +21,12 @@ margin-bottom: 20px;
 `
 
 const TextNavbar = styled.div`
+a{
+all:unset;
+cursor:pointer;
+}
+
+    text-decoration: none;
     display: flex;
     padding-top: 15px;
     justify-content: center;
@@ -25,4 +34,4 @@ const TextNavbar = styled.div`
     font-weight: 400;
     font-size: 34px;
 `
-    
+

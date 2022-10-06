@@ -1,6 +1,8 @@
+import SelectSession from "./SelectSession";
 import styled from "styled-components";
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect} from "react";
+import {Link} from "react-router-dom"
 
 export default function ContainerScreen() {
     const [filmes, setFilmes] = useState([]);
@@ -9,18 +11,26 @@ export default function ContainerScreen() {
         const promisse = axios.get(
             "https://mock-api.driven.com.br/api/v5/cineflex/movies"
         );
-        let contador = 0;
         promisse.then((resp) => {
                 setFilmes(resp.data)
         });
     }, []);
-    console.log(filmes)
+
+
     return (
         <>
             <ContainerMovies>
                 <p>Selecione o filme</p>
                 <ListaFilmes>
-                    {filmes.map((item)=> <Movie key={item.id}><img src={item.posterURL}/></Movie>)}
+                    {filmes.map((item)=> 
+                    
+                    <Link to={`/sessoes/${item.id}`}>
+                    <Movie key={item.id}>
+                    <img src={item.posterURL} onClick={()=> console.log(item)}/>
+                    </Movie>
+                    </Link>
+                    
+                    )}
                     
                 </ListaFilmes>
             </ContainerMovies>
@@ -42,8 +52,10 @@ const ListaFilmes = styled.ul`
 `;
 
 const Movie = styled.li`
+
 img{width: 129px;
 height: 193px;
-margin:20px}
+margin:20px
+}
 
 `;
