@@ -1,11 +1,13 @@
 import Navbar from "./Navbar";
 import styled from "styled-components";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function SelectSession() {
     let [SessionMovie, setSextionMovie] = useState([]);
+    let [Movie, setMovie] = useState({})
+
     let { idFilme } = useParams();
 
     useEffect(() => {
@@ -15,9 +17,10 @@ export default function SelectSession() {
 
         promisse.then((resp) => {
             setSextionMovie(resp.data.days);
+            setMovie(resp.data)
         });
     }, []);
-
+    console.log(SessionMovie)
     return (
         <>
             <ContainerSessions>
@@ -33,19 +36,30 @@ export default function SelectSession() {
                             </SessionDay>
                             <SessionHour>
                                 {item.showtimes.map((name) => (
-                                    <div>{name.name}</div>
-                                ))}
+                                    <Link to={`/assentos/${name.id}`}>
+                                        <a>{name.name}</a>
+                                    </Link>))}
                             </SessionHour>
-                            
+
+
                         </div>
                     </Sessions>
                 ))}
             </ContainerSessions>
+
+            <DownBar>
+                <div className="boxImg">
+                    <img src={Movie.posterURL}></img>
+                </div>
+                <p>{Movie.title}</p>
+            </DownBar>
+
         </>
     );
 }
 
 const ContainerSessions = styled.div`
+    box-shadow: 5px 5px gray;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -62,7 +76,8 @@ const Sessions = styled.div`
 display: flex;
 justify-content: center;
 align-items: center;
-background-color: gray;
+background-color: white;
+box-shadow: 2px 2px 2px;
 width: 250px;
 height: 130px;
 margin-bottom: 30px;
@@ -78,8 +93,7 @@ const SessionHour = styled.div`
   display: flex !important;
   justify-content: space-around;
   width: 200px;
-  div {
-      
+  a {
     border-radius: 5px;
     font-size: 17px;
     font-weight: 600;
@@ -89,5 +103,29 @@ const SessionHour = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    text-decoration: none;
+    color: white;
   }
 `;
+
+const DownBar = styled.div`
+.boxImg{
+    background-color: white;
+    padding:5px;
+    margin-right: 10px;
+    margin-top: 10px;
+};
+img{
+    width: 70px;
+};
+p{
+    font-size: 30px;
+};
+justify-content: center;
+display: flex;
+align-items: center;
+width: 100%;
+height:auto;
+background-color: #9EADBA;
+
+`

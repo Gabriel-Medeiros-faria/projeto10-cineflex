@@ -1,4 +1,3 @@
-import SelectSession from "./SelectSession";
 import styled from "styled-components";
 import axios from "axios";
 import { useState, useEffect} from "react";
@@ -28,10 +27,8 @@ export default function ContainerScreen() {
                     <Movie key={item.id}>
                     <img src={item.posterURL} onClick={()=> console.log(item)}/>
                     </Movie>
-                    </Link>
-                    
-                    )}
-                    
+                    </Link>         
+                )}
                 </ListaFilmes>
             </ContainerMovies>
         </>
