@@ -2,13 +2,17 @@ import { useState, useEffect } from "react"
 import styled from "styled-components"
 import Navbar from "./Navbar"
 import axios from "axios"
-import { useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 
 export default function SeatPage() {
     const [seatList, setSeatList] = useState([])
     const [Movie, setMovie] = useState({})
     const [days, setDays] = useState({})
     const [hour, setHour] = useState({})
+    const [optionSelected, setOptionSelected] = useState([])
+    const [idSelected, setIdSelected] = useState([])
+    const [inputName, setInputName] = useState()
+    const [inputCPF, setInputCPF] = useState()
     const { idSessao } = useParams()
 
     useEffect(() => {
@@ -21,14 +25,47 @@ export default function SeatPage() {
         })
     }, [])
 
+    function PostAssets(){
+
+
+
+        const body = {
+            ids:[idSelected],
+            name:{inputName},
+            cpf:{inputCPF}
+        }
+
+            const promisse = axios.post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many", body)
+            promisse.then(()=> console.log("mandou"))
+
+            promisse.catch(()=> console.log("não foi"))
+    }
+
+    function ReservarAssentos(item) {
+        setOptionSelected([...optionSelected, item.name])
+        setIdSelected([...idSelected, item.id])
+    }
+    
     function Seat(props) {
+
+        if (optionSelected.includes(props.item.name)) {
+            return (
+                <>
+                    <SingleSeatSelected>
+                        <b onClick={() => ReservarAssentos(props.item)}>
+                            {props.item.name}
+                        </b>
+                    </SingleSeatSelected>
+                </>
+            )
+        }
 
         if (props.item.isAvailable === true) {
 
             return (
                 <>
                     <SingleSeatTrue>
-                        <b>
+                        <b onClick={() => ReservarAssentos(props.item)}>
                             {props.item.name}
                         </b>
                     </SingleSeatTrue>
@@ -40,7 +77,7 @@ export default function SeatPage() {
             return (
                 <>
 
-                    <SingleSeatFalse>
+                    <SingleSeatFalse onClick={() => ReservarAssentos}>
                         <b>
                             {props.item.name}
                         </b>
@@ -62,7 +99,6 @@ export default function SeatPage() {
                             {seatList.map((item) =>
                                 <>
                                     <Seat item={item} />
-                                    {console.log(item)}
                                 </>
                             )}
 
@@ -90,16 +126,29 @@ export default function SeatPage() {
                         </div>
                     </Subtitle>
                 </ContainerSeat>
+                <ContainerIputs>
+                    <p>Nome do comprador:</p>
+                    <input placeholder="Digite seu nome..." onChange={(e)=>setInputName(e.target.value)}></input>
+                    <p>CPF do comprador:</p>
+                    <input placeholder="Digite seu CPF..." onChange={(e)=>setInputCPF(e.target.value)}></input>
+                </ContainerIputs>
+
+                <Link to="/sucesso"> 
+                <ReservarAssento>
+                    <button onClick={()=>PostAssets()}>Reservar Assento(s)</button>
+                </ReservarAssento>
+                </Link>
+
+                <DownBar>
+                    <div className="boxImg">
+                        <img src={Movie.posterURL}></img>
+                    </div>
+                    <InfoMovie>
+                        <p>{Movie.title}</p>
+                        <p>{days.weekday} - {hour.name}</p>
+                    </InfoMovie>
+                </DownBar>
             </Container>
-            <DownBar>
-                <div className="boxImg">
-                    <img src={Movie.posterURL}></img>
-                </div>
-                <InfoMovie>
-                    <p>{Movie.title}</p>
-                    <p>{days.weekday} - {hour.name}</p>
-                </InfoMovie>
-            </DownBar>
         </>
     )
 }
@@ -125,6 +174,7 @@ flex-wrap: wrap;
 const Ullist = styled.div`
 display: flex;
 flex-wrap: wrap;
+justify-content: center;
 margin-bottom: 20px;
 `
 
@@ -133,7 +183,7 @@ display: flex;
 justify-content: center;
 align-items: center;
 border-radius: 50px;
-width: 40px;
+width: 28px;
 margin: 5px;
 font-size: 20px;
 background-color: #C3CFD9;
@@ -144,7 +194,7 @@ display: flex;
 justify-content: center;
 align-items: center;
 border-radius: 40px;
-width: 40px;
+width: 28px;
 margin: 5px;
 font-size: 20px;
 background-color: #FBE192;
@@ -181,9 +231,13 @@ flex-direction:column;
 
 const Subtitle = styled.div`
 display: flex;
-justify-content: space-between;
+justify-content: space-evenly;
+width: 100%;
 div{
-margin-right: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
 };
 p{
     font-size: 20px;
@@ -210,5 +264,48 @@ p{
     background-color:#FBE192;
     border: 1px solid #F7C52B;
 };
+
+`
+
+const SingleSeatSelected = styled.div`
+display: flex;
+justify-content: center;
+align-items: center;
+border-radius: 40px;
+width: 28px;
+margin: 5px;
+font-size: 20px;
+background-color: #1AAE9E;
+border: 1px solid #0E7D71;
+`
+
+const ContainerIputs = styled.div`
+display: flex;
+flex-direction:column;
+justify-content: center;
+align-items: center;
+    p{
+        font-size: 20px;
+        margin-bottom: 5px;
+    }
+    input{
+        width: 327px;
+        height: 51px;
+        font-size: 25px;
+        margin-bottom: 15px;
+    }
+`
+const ReservarAssento = styled.div`
+margin-top: 20px;
+display: flex;
+justify-content: center;
+button{
+    font-size: 18px;
+    border: none;
+    width: 225px;
+height: 42px;
+color: white;
+background-color: #E8833A;
+}
 
 `

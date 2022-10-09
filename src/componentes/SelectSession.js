@@ -63,6 +63,7 @@ const ContainerSessions = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-bottom: 130px;
   .p {
     margin-left: 10px;
     font-size: 25px;
@@ -121,6 +122,8 @@ img{
 p{
     font-size: 30px;
 };
+position: fixed;
+bottom: 0;
 justify-content: center;
 display: flex;
 align-items: center;
