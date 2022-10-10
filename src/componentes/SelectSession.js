@@ -20,7 +20,6 @@ export default function SelectSession() {
             setMovie(resp.data)
         });
     }, []);
-    console.log(SessionMovie)
     return (
         <>
             <ContainerSessions>

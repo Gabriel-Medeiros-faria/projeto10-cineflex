@@ -47,7 +47,6 @@ export default function SeatPage() {
             exportDaysDate = resp.data.day
             exportHour = resp.data
 
-            console.log(exportMovie)
     }
 
     function postAssets() {
@@ -57,12 +56,10 @@ export default function SeatPage() {
 
         if(idSelected.length === 0 || !inputName || !inputCPF){
             alert('Selecione os assentos, digite seu nome e CPF')
-            console.log('entrou no iff')
         }
 
 
         else{
-            console.log('entrou no else')
             const body = {
                 ids: idSelected,
                 name: { inputName },

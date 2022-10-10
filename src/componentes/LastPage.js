@@ -8,16 +8,6 @@ import {exportCPF} from "./SeatPage"
 import { exportDaysDate } from "./SeatPage";
 import { exportHour } from "./SeatPage";
 
-
-
-console.log(exportMovie, "filme")
-console.log(exportOptionSelected, "id selecionado")
-console.log(exportInputName, "input name")
-console.log(exportCPF, "input CPF")
-console.log(exportDaysDate, "dias")
-console.log(exportHour, "horas")
-
-
 export default function LastPage(){
 
     const navigate = useNavigate()
