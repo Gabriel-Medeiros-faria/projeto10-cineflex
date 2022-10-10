@@ -29,14 +29,14 @@ export default function SelectSession() {
                     <Sessions>
                         <div className="sessionInt">
                             <SessionDay>
-                                <p>
+                                <p data-identifier="session-date">
                                     {item.weekday} - {item.date}
-                                </p>
+                                </p >
                             </SessionDay>
                             <SessionHour>
                                 {item.showtimes.map((name) => (
                                     <Link to={`/assentos/${name.id}`}>
-                                        <a>{name.name}</a>
+                                        <a data-identifier="hour-minute-btn">{name.name}</a>
                                     </Link>))}
                             </SessionHour>
 
@@ -47,7 +47,7 @@ export default function SelectSession() {
             </ContainerSessions>
 
             <DownBar>
-                <div className="boxImg">
+                <div className="boxImg" data-identifier="movie-img-preview">
                     <img src={Movie.posterURL}></img>
                 </div>
                 <p>{Movie.title}</p>

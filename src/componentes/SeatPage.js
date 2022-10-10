@@ -138,7 +138,7 @@ export default function SeatPage() {
                         <Ullist>
                             {seatList.map((item) =>
                                 <>
-                                    <Seat item={item} />
+                                    <Seat item={item} data-identifier="seat"/>
                                 </>
                             )}
                         </Ullist>
@@ -146,19 +146,19 @@ export default function SeatPage() {
 
                     <Subtitle>
                         <div>
-                            <div className="green">
+                            <div className="green" data-identifier="seat-selected-subtitle">
 
                             </div>
                             <p>Selecionado</p>
                         </div>
                         <div>
-                            <div className="gray">
+                            <div className="gray" data-identifier="seat-available-subtitle">
 
                             </div>
                             <p>Disponível</p>
                         </div>
                         <div>
-                            <div className="yellow">
+                            <div className="yellow" data-identifier="seat-unavailable-subtitle">
 
                             </div>
                             <p>Indisponível</p>
@@ -167,14 +167,14 @@ export default function SeatPage() {
                 </ContainerSeat>
                 <ContainerIputs>
                     <p>Nome do comprador:</p>
-                    <input placeholder="Digite seu nome..." onChange={(e) => setInputName(e.target.value)}></input>
+                    <input placeholder="Digite seu nome..." onChange={(e) => setInputName(e.target.value)} data-identifier="buyer-name-input"></input>
                     <p>CPF do comprador:</p>
-                    <input placeholder="Digite seu CPF..." onChange={(e) => setInputCPF(e.target.value)}></input>
+                    <input placeholder="Digite seu CPF..." onChange={(e) => setInputCPF(e.target.value)} data-identifier="buyer-cpf-input"></input>
                 </ContainerIputs>
 
                 
                     <ReservarAssento>
-                        <button onClick={() => postAssets()}>Reservar Assento(s)</button>
+                        <button onClick={() => postAssets()} data-identifier="reservation-btn">Reservar Assento(s)</button>
                     </ReservarAssento>
                 
 
@@ -184,7 +184,7 @@ export default function SeatPage() {
                     </div>
                     <InfoMovie>
                         <p>{Movie.title}</p>
-                        <p>{days.weekday} - {hour.name}</p>
+                        <p data-identifier="movie-and-session-infos-preview">{days.weekday} - {hour.name}</p>
                     </InfoMovie>
                 </DownBar>
             </Container>

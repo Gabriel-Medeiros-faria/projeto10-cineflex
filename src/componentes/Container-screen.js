@@ -25,7 +25,7 @@ export default function ContainerScreen() {
                     
                     <Link to={`/sessoes/${item.id}`}>
                     <Movie key={item.id}>
-                    <img src={item.posterURL} onClick={()=> console.log(item)}/>
+                    <img src={item.posterURL} onClick={()=> console.log(item)} data-identifier="movie-outdoor"/>
                     </Movie>
                     </Link>         
                 )}

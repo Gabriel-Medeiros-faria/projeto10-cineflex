@@ -23,23 +23,23 @@ function BackHome(){
                 <h1>Pedido feito com sucesso !!</h1>
                 <div className="PedidoeSessao">
                     <h2>Pedido e sessão</h2>
-                    <p>{exportMovie}</p>
-                    <p>{exportDaysDate.date} - {exportHour.name}</p>
+                    <p data-identifier="movie-session-infos-reserve-finished">{exportMovie}</p>
+                    <p data-identifier="movie-session-infos-reserve-finished">{exportDaysDate.date} - {exportHour.name}</p>
                 </div>
                 <div className="Ingressos">
                     <h2>Ingressos</h2>
-                    {exportOptionSelected.map((numero)=><p>Ingresso {numero}</p>)}
+                    {exportOptionSelected.map((numero)=><p data-identifier="seat-infos-reserve-finished">Ingresso {numero}</p>)}
                     
                 </div>
                 <div className="Comprador">
                     <h2>Comprador</h2>
-                    <p>Nome: {exportInputName}</p>
-                    <p>CPF: {exportCPF}</p>
+                    <p data-identifier="buyer-infos-reserve-finished">Nome: {exportInputName}</p>
+                    <p data-identifier="buyer-infos-reserve-finished">CPF: {exportCPF}</p>
                 </div>
             </Container>
             
             <Home>
-                <div onClick={()=>BackHome()}>Voltar para home</div>
+                <div onClick={()=>BackHome()} data-identifier="back-to-home-btn">Voltar para home</div>
             </Home>
             
         </>
