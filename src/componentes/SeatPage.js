@@ -2,9 +2,22 @@ import { useState, useEffect } from "react"
 import styled from "styled-components"
 import Navbar from "./Navbar"
 import axios from "axios"
-import { Link, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
+
+
+
+
+export let exportMovie ;
+export let exportOptionSelected;
+export let exportInputName;
+export let exportCPF;
+export let exportDaysDate;
+export let exportHour;
+
 
 export default function SeatPage() {
+
+    const navigate = useNavigate()
     const [seatList, setSeatList] = useState([])
     const [Movie, setMovie] = useState({})
     const [days, setDays] = useState({})
@@ -15,37 +28,67 @@ export default function SeatPage() {
     const [inputCPF, setInputCPF] = useState()
     const { idSessao } = useParams()
 
+    exportOptionSelected = optionSelected
+    exportInputName = inputName
+    exportCPF = inputCPF
+
     useEffect(() => {
         const promisse = axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${idSessao}/seats`)
-        promisse.then((resp) => {
-            setSeatList(resp.data.seats)
+        promisse.then((resp) => SetVariables(resp))
+    }, [])
+
+    function SetVariables(resp){
+        setSeatList(resp.data.seats)
             setDays(resp.data.day)
             setMovie(resp.data.movie)
             setHour(resp.data)
-        })
-    }, [])
 
-    function PostAssets(){
+            exportMovie = resp.data.movie.title
+            exportDaysDate = resp.data.day
+            exportHour = resp.data
 
-
-
-        const body = {
-            ids:[idSelected],
-            name:{inputName},
-            cpf:{inputCPF}
-        }
-
-            const promisse = axios.post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many", body)
-            promisse.then(()=> console.log("mandou"))
-
-            promisse.catch(()=> console.log("não foi"))
+            console.log(exportMovie)
     }
 
+    function postAssets() {
+
+
+
+
+        if(idSelected.length === 0 || !inputName || !inputCPF){
+            alert('Selecione os assentos, digite seu nome e CPF')
+            console.log('entrou no iff')
+        }
+
+
+        else{
+            console.log('entrou no else')
+            const body = {
+                ids: idSelected,
+                name: { inputName },
+                cpf: { inputCPF }
+            }
+    
+            const promisse = axios.post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many", body)
+        promisse.then(() => console.log("mandou"))
+    
+        promisse.catch(() => console.log("não foi")) 
+
+        navigate("/sucesso")
+        }
+    
+    }
+
+    
     function ReservarAssentos(item) {
         setOptionSelected([...optionSelected, item.name])
         setIdSelected([...idSelected, item.id])
     }
-    
+
+    function assetsInd(){
+        alert('Esse assento está indisponível')
+    }
+
     function Seat(props) {
 
         if (optionSelected.includes(props.item.name)) {
@@ -77,7 +120,7 @@ export default function SeatPage() {
             return (
                 <>
 
-                    <SingleSeatFalse onClick={() => ReservarAssentos}>
+                    <SingleSeatFalse onClick={() => assetsInd()}>
                         <b>
                             {props.item.name}
                         </b>
@@ -101,7 +144,6 @@ export default function SeatPage() {
                                     <Seat item={item} />
                                 </>
                             )}
-
                         </Ullist>
                     </Seats>
 
@@ -128,16 +170,16 @@ export default function SeatPage() {
                 </ContainerSeat>
                 <ContainerIputs>
                     <p>Nome do comprador:</p>
-                    <input placeholder="Digite seu nome..." onChange={(e)=>setInputName(e.target.value)}></input>
+                    <input placeholder="Digite seu nome..." onChange={(e) => setInputName(e.target.value)}></input>
                     <p>CPF do comprador:</p>
-                    <input placeholder="Digite seu CPF..." onChange={(e)=>setInputCPF(e.target.value)}></input>
+                    <input placeholder="Digite seu CPF..." onChange={(e) => setInputCPF(e.target.value)}></input>
                 </ContainerIputs>
 
-                <Link to="/sucesso"> 
-                <ReservarAssento>
-                    <button onClick={()=>PostAssets()}>Reservar Assento(s)</button>
-                </ReservarAssento>
-                </Link>
+                
+                    <ReservarAssento>
+                        <button onClick={() => postAssets()}>Reservar Assento(s)</button>
+                    </ReservarAssento>
+                
 
                 <DownBar>
                     <div className="boxImg">
@@ -151,6 +193,7 @@ export default function SeatPage() {
             </Container>
         </>
     )
+
 }
 
 
@@ -299,6 +342,7 @@ const ReservarAssento = styled.div`
 margin-top: 20px;
 display: flex;
 justify-content: center;
+
 button{
     font-size: 18px;
     border: none;
